@@ -1,4 +1,5 @@
 import collections
+import hashlib
 import random
 
 def inv(n, q):
@@ -101,7 +102,41 @@ def ecdsa_generate_keys(ec):
     return b, d
 
 
+def ecdsa_sign(ec, d, msg):
+    k = random.randint(0,ec.q)
+    R = ec.mul(ec.g, k)
+    r = R[0] % ec.q
+    h = int(hashlib.sha256(msg.encode()).hexdigest(), 16)
+    s = ((h + d * r) * inv(k, ec.q)) % ec.q
+    return r, s
+
+
+def ecdsa_verify(ec, msg, r, s, b):
+    w = inv(s,ec.q) % ec.q
+    h = int(hashlib.sha256(msg.encode()).hexdigest(), 16)
+    u1 = (w * h) % ec.q
+    u2 = (w * r) % ec.q
+    p = ec.add(ec.mul(ec.g, u1), ec.mul(b, u2))
+    return p[0] == r % ec.q
+
+
 ec = EC(1, 18, 19)
-print(ec.add(ec.at(7)[0], ec.at(7)[1]))
+"""
+P = point_add(scalar_mult(u1,curve.g), scalar_mult(u2,QA))
 
+res = P[0] % curve.n
+print (f"\nResult r={res}")
 
+if (res==r):
+	print("Signature matches!")
+print(ec.add(ec.at(7)[0], ec.at(7)[0]))
+for i in range(20):
+    print(ec.mul(ec.at(7)[0],i))
+"""
+b,d = ecdsa_generate_keys(ec)
+msg = "hello"
+print(b,d)
+
+r,s = ecdsa_sign(ec, d, msg)
+print(r,s)
+print(ecdsa_verify(ec, msg, r, s, b))
