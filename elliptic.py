@@ -96,6 +96,16 @@ class EC(object):
             r = self.add(r, p)
         return r
 
+"""
+def elGamal_generate_keys(ec):
+    priv = random.randint(0, ec.q)
+    pub = ec.at(random.randint(0, ec.q))
+    return pub, ec.mul(pub, priv)
+
+def elGamal_enc(plain, pub):
+    """
+
+
 def ecdsa_generate_keys(ec):
     d = random.randint(0, ec.q)
     b = ec.mul(ec.g, d)
@@ -119,24 +129,17 @@ def ecdsa_verify(ec, msg, r, s, b):
     p = ec.add(ec.mul(ec.g, u1), ec.mul(b, u2))
     return p[0] == r % ec.q
 
-
-ec = EC(1, 18, 19)
 """
-P = point_add(scalar_mult(u1,curve.g), scalar_mult(u2,QA))
+ec = EC(1, 18, 19)
 
-res = P[0] % curve.n
-print (f"\nResult r={res}")
-
-if (res==r):
-	print("Signature matches!")
 print(ec.add(ec.at(7)[0], ec.at(7)[0]))
 for i in range(20):
     print(ec.mul(ec.at(7)[0],i))
-"""
+
 b,d = ecdsa_generate_keys(ec)
 msg = "hello"
 print(b,d)
 
 r,s = ecdsa_sign(ec, d, msg)
 print(r,s)
-print(ecdsa_verify(ec, msg, r, s, b))
+print(ecdsa_verify(ec, msg, r, s, b))"""
