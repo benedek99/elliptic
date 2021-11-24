@@ -2,11 +2,13 @@ import collections
 import hashlib
 import random
 
+
 def inv(n, q):
 
     for i in range(q):
         if (n * i) % q == 1:
             return i
+
 
 def sqrt(n, q):
     """sqrt on PN modulo: it may not exist
@@ -36,7 +38,7 @@ class EC(object):
         self.b = b
         self.q = q
         self.g = self.at(7)[0]
-        # just as unique ZERO value representation for "add": (not on curve)
+
         self.zero = Coord(0, 0)
 
     def is_valid(self, p):
@@ -103,7 +105,7 @@ def elGamal_generate_keys(ec):
     return pub, ec.mul(pub, priv)
 
 def elGamal_enc(plain, pub):
-    """
+"""
 
 
 def ecdsa_generate_keys(ec):
@@ -129,7 +131,7 @@ def ecdsa_verify(ec, msg, r, s, b):
     p = ec.add(ec.mul(ec.g, u1), ec.mul(b, u2))
     return p[0] == r % ec.q
 
-"""
+
 ec = EC(1, 18, 19)
 
 print(ec.add(ec.at(7)[0], ec.at(7)[0]))
@@ -142,4 +144,7 @@ print(b,d)
 
 r,s = ecdsa_sign(ec, d, msg)
 print(r,s)
-print(ecdsa_verify(ec, msg, r, s, b))"""
+print(ecdsa_verify(ec, msg, r, s, b))
+print(ecdsa_verify(ec, msg, r+1, s, b))
+print(ecdsa_verify(ec, msg, r, s+1, b))
+print(ecdsa_verify(ec, msg + "asd", r, s+1, b))

@@ -13,13 +13,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     conn, addr = s.accept()
     with conn:
         print('Connected by', addr)
-        #while True:
-        cpk0 = int.from_bytes(conn.recv(1024), "little")
-        print(cpk0)
-        cpk1 = int.from_bytes(conn.recv(1024), "little")
-        print("s2")
-        client_public_key = elliptic.Coord(cpk0, cpk1)
-        print(client_public_key)
-            #if not data:
-                #break
-        conn.sendall(bytes(pub_key))
+        while True:
+            data = conn.recv(1024)
+            if not data:
+                break
+            conn.sendall(data)
