@@ -4,7 +4,9 @@ import random
 
 
 def inv(n, q):
-
+    """
+    >>> assert n * inv(n, q) % q == 1
+    """
     for i in range(q):
         if (n * i) % q == 1:
             return i
@@ -135,6 +137,8 @@ def ecdsa_verify(ec, msg, r, s, b):
 ec = EC(1, 18, 19)
 
 print(ec.add(ec.at(7)[0], ec.at(7)[0]))
+print(ec.mul(ec.at(7)[0], 2))
+
 for i in range(20):
     print(ec.mul(ec.at(7)[0],i))
 
